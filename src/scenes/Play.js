@@ -11,15 +11,15 @@ class Play extends Phaser.Scene {
      
       
     
-this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0)
+
 this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0)
-this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0)
+
 this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0)
 this.ship01 = new Spaceship(this, Phaser.Math.Between(60,580),0, 'spaceship', 0, 1,Phaser.Math.Between(3,10)/10).setOrigin(0, 0)
 this.barrier = this.physics.add.sprite(this.p1Rocket.x,this.p1Rocket.y,'place')
 this.barrier.setAngle(180)
-this.ship5 = this.physics.add.sprite(this.p1Rocket.x,this.p1Rocket.y,'ship2')
+this.barrier.setImmovable(true)
+this.ship5 = this.physics.add.sprite(Phaser.Math.Between(60,580),0,'ship2')
 this.ship5.body.setCircle(this.ship5.width/4)
 this.ship5.body.setOffset(this.ship5.width/4)
 this.ship5.body.setDamping(true).setDrag(0.5)
@@ -51,7 +51,10 @@ let scoreConfig = {
     fixedWidth: 100
   }
   this.physics.add.collider(this.ship5,this.barrier,(ship5,barrier)=>{
-    ship5.destroy()
+   ship5.setY(-40)
+   ship5.setX(Phaser.Math.Between(60,580))
+                        
+          this.sound.play('boom')
 })
   this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
 // GAME OVER flag
@@ -65,6 +68,21 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
     }
     update() {
      
+     if(this.ship5.y>=480){
+      this.ship5.setY(-120)
+          this.ship5.destroy()
+         this.ship01.destroy()
+         
+          this.ship02.destroy()
+          this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER').setOrigin(0.5)
+    this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press right for menu or (R) to Restart').setOrigin(0.5)
+          this.sound.play('gameover')
+          this.gameOver=true
+     }
+     if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+      this.sound.stopAll()
+      this.scene.start("menuScene")
+  }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
             this.scene.restart()
         }
@@ -75,13 +93,7 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
           this.scene.restart()
         }
         
-        if(this.ship5.y>=480){
-          this.ship5.destroy
-          this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER').setOrigin(0.5)
-    this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press right or (R) to Restart').setOrigin(0.5)
-          this.sound.play('gameover')
-          this.gameOver=true
-        }
+        
           
          
           if (this.checkCollision(this.p1Rocket, this.ship01)) {
@@ -114,7 +126,7 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
           this.gameend(this.ship02)
           //this.gameend(this.ship03)
           if(!this.gameOver) {      
-            
+            this.ship5.setVelocityY(this.clock.getElapsedSeconds()*3+25)
             this.starfield.tilePositionY -= 4         
             this.p1Rocket.update()         // update rocket sprite
             this.ship01.update()           // update spaceships (x3)
@@ -140,7 +152,8 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
         if(ship.y>=480){
           ship.y=-10
           ship.destroy()
-          
+          this.ship5.setVelocityY(0)
+          this.ship5.destroy
           this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER').setOrigin(0.5)
     this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press right or (R) to Restart').setOrigin(0.5)
           this.sound.play('gameover')
@@ -148,7 +161,7 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
         }
         }
       
-      
+    
       shipExplode(ship) {
         // temporarily hide ship
         ship.alpha = 0

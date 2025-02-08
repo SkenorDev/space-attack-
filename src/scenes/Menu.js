@@ -19,6 +19,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx-select', './assets/sfx-select.wav')
         this.load.audio('music', './assets/music.mp3')
         this.load.audio('sfx-explosion', './assets/sfx-explosion.wav')
+        this.load.audio('boom', './assets/boom.wav')
         this.load.audio('sfx-shot', './assets/sfx-shot.wav')
         this.load.spritesheet('explosion', './assets/explosion.png', {
             frameWidth: 64,
@@ -72,12 +73,13 @@ this.anims.create({
         this.add.text(game.config.width/2, game.config.height/2+ borderUISize+ borderPadding,'and space to place barrier',menuConfig).setOrigin(0.5)
         menuConfig.backgroundColor='#00FF00'
         menuConfig.color='#000'
-        this.add.text(game.config.width/2,game.config.height/2 + borderUISize*2+ borderPadding*2, 'Press left arrow to begin',menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2,game.config.height/2 + borderUISize*2+ borderPadding*2, 'Press left arrow to begin and c for credits',menuConfig).setOrigin(0.5)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
         keyPLACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
       }
 
 
@@ -89,6 +91,10 @@ this.anims.create({
 }
 if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
   this.scene.start("menuScene")
+  console.log("R");
+}
+if ( Phaser.Input.Keyboard.JustDown(keyC)) {
+  this.scene.start("creditScene")
   console.log("R");
 }
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
