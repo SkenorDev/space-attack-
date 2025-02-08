@@ -1,4 +1,7 @@
-//Nathan Skinner, Space Attack!, 10
+//Nathan Skinner, Space Attack!, 10,Personally Im proud of myself from modding a game rather then starting from scratch it made a lot of things harder
+// as I had to work around code and had to fully understand all the factors of rocket patrol I also love that theres 2 types of ships that require different mechanics,
+// Im proud that I made my own sprite sheet and altered assets to make them distinct for the mechanics at play
+//
 let config = {
     type: Phaser.AUTO,
     width: 640,
