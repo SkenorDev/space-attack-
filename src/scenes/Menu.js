@@ -12,6 +12,8 @@ class Menu extends Phaser.Scene {
             framerate:30
       })
         this.load.image('rocket', './assets/rocket.png')
+        this.load.image('place', './assets/rocket2.png')
+        this.load.image('ship2', './assets/spaceship3.png')
         this.load.audio('gameover', './assets/gameover.wav')
         this.load.image('starfield', './assets/starfield.png')
         this.load.audio('sfx-select', './assets/sfx-select.wav')
@@ -67,13 +69,15 @@ this.anims.create({
        // this.add.text(game.config.width/2/game.config.height/2 + borderUISize+ borderPadding, 'ROCKET PATROL',menuConfig).setOrigin(0.5)
     
         this.add.text(game.config.width/2, game.config.height/2,'Use arrow keys to move (f) to fire',menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/2+ borderUISize+ borderPadding,'and space to place barrier',menuConfig).setOrigin(0.5)
         menuConfig.backgroundColor='#00FF00'
         menuConfig.color='#000'
-        this.add.text(game.config.width/2,game.config.height/2 + borderUISize+ borderPadding, 'Press L or for to begin',menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2,game.config.height/2 + borderUISize*2+ borderPadding*2, 'Press left arrow to begin',menuConfig).setOrigin(0.5)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
+        keyPLACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
       }
 
 
