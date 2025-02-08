@@ -1,14 +1,16 @@
 class Play extends Phaser.Scene {
     constructor() {
       super("playScene")
+      
     }
     
     create() {
+      
      // green UI background
      this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0)
      
       
-  
+    
 this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0)
 this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0)
 this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
@@ -27,6 +29,7 @@ keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
 // add spaceships (x3)
 // initialize score
 this.p1Score = 0
+
 let scoreConfig = {
     fontFamily: 'Courier',
     fontSize: '28px',
@@ -54,19 +57,12 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
             this.scene.restart()
         }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-          this.scene.start("menuScene")
-        }
+       
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
           this.scene.restart()
         }
         
-        if(!this.gameOver) {               
-            this.p1Rocket.update()         // update rocket sprite
-            this.ship01.update()           // update spaceships (x3)
-            this.ship02.update() 
-           // this.ship03.update() 
-        } 
+        
           
          
           if (this.checkCollision(this.p1Rocket, this.ship01)) {
@@ -99,7 +95,7 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
           this.gameend(this.ship02)
           //this.gameend(this.ship03)
           if(!this.gameOver) {      
-           
+            
             this.starfield.tilePositionY -= 4         
             this.p1Rocket.update()         // update rocket sprite
             this.ship01.update()           // update spaceships (x3)
@@ -122,11 +118,16 @@ this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
       }
       gameend(ship){
         if(ship.y>=480){
+          ship.y=-10
+          ship.destroy()
+          
           this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER').setOrigin(0.5)
-    this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press right or (R) to Restart or ← for Menu').setOrigin(0.5)
+    this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press right or (R) to Restart').setOrigin(0.5)
+          this.sound.play('gameover')
           this.gameOver=true
         }
-      }
+        }
+      
       
       shipExplode(ship) {
         // temporarily hide ship

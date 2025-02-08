@@ -12,10 +12,10 @@ class Menu extends Phaser.Scene {
             framerate:30
       })
         this.load.image('rocket', './assets/rocket.png')
-        
+        this.load.audio('gameover', './assets/gameover.wav')
         this.load.image('starfield', './assets/starfield.png')
         this.load.audio('sfx-select', './assets/sfx-select.wav')
-        this.load.audio('sfx-select', './assets/music.mp3')
+        this.load.audio('music', './assets/music.mp3')
         this.load.audio('sfx-explosion', './assets/sfx-explosion.wav')
         this.load.audio('sfx-shot', './assets/sfx-shot.wav')
         this.load.spritesheet('explosion', './assets/explosion.png', {
@@ -33,7 +33,12 @@ class Menu extends Phaser.Scene {
            
             frameRate:30
             
+            
 })
+const music = this.sound.add('music', {
+  loop: true // Enable looping
+});
+music.play();
 this.anims.create({
   key: 'spaceshipanim',
   frameRate:4,
